@@ -71,7 +71,7 @@
                                             ?>
                                         </span></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="logout.php" onclick="return confirm('Anda yakin mau logout ?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -106,6 +106,7 @@
                                 }
                                 ?>
                                 <form method="post" action="aksi_edit_transaksi.php?id=<?php echo    $id;    ?>">
+                                    <div class="form-group"><button onclick="goBack()" class="btn btn-warning btn-sm" type="submit">Kembali</button></div>
                                     <div class="form-group">
                                         <label for="address">
                                             <strong>Nomor KTP</strong>
@@ -168,6 +169,12 @@
                                             <input value="<?php echo $tgl_keluar; ?>" type="date" class="form-control" name="tgl_keluar">
                                         </div>
                                         <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save&nbsp;Settings</button></div>
+
+                                        <script>
+                                            function goBack() {
+                                                window.history.back();
+                                            }
+                                        </script>
                                 </form>
                                 <script type="text/javascript">
                                     $(document).ready(function() {

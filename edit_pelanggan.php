@@ -97,7 +97,7 @@
                                     $no_hp = $plg['no_hp'];
                                 }
                                 ?>
-                                <form method="post" action="aksi_edit_pelanggan.php">
+                                <form method="post" action="aksi_edit_pelanggan.php?id=<?php echo $id ?>">
                                     <div class="form-group">
                                         <label for="address">
                                             <strong>No KTP</strong>

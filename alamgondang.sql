@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 27 Nov 2019 pada 18.24
+-- Waktu pembuatan: 01 Des 2019 pada 17.19
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.10
 
@@ -61,20 +61,20 @@ CREATE TABLE `alat` (
 --
 
 INSERT INTO `alat` (`id_alat`, `nama`, `harga`, `stok`) VALUES
-(1, 'Matras', '3000', '23'),
+(1, 'Matras', '3000', '34'),
 (2, 'Sleeping Bag', '5000', '20'),
-(3, 'Headlamp', '5000', '10'),
+(3, 'Headlamp', '5000', '9'),
 (4, 'Handy Talky', '15000', '10'),
 (5, 'Gas Portabel', '8000', '15'),
 (6, 'Kompor Portabel', '6000', '15'),
-(7, 'Megaphone', '20000', '4'),
+(7, 'Megaphone', '20000', '7'),
 (8, 'Tenda Dom 2-3 Orang', '15000', '5'),
-(9, 'Tenda Dom 4-8 Orang', '40000', '3'),
+(9, 'Tenda Dom 4-8 Orang', '40000', '2'),
 (10, 'Nesting', '6000', '10'),
 (11, 'Jaket Polar', '10000', '20'),
 (12, 'Sepatu Gunung', '20000', '10'),
 (13, 'Sandal Gunung', '10000', '10'),
-(14, 'Tas Carrier 60L-80L', '20000', '10');
+(14, 'Tas Carrier 60L-80L', '20000', '2');
 
 -- --------------------------------------------------------
 
@@ -94,8 +94,42 @@ CREATE TABLE `penyewa` (
 --
 
 INSERT INTO `penyewa` (`no_ktp`, `nama`, `alamat`, `no_hp`) VALUES
-(21120117130042, 'Wahid Dwipa B', 'Tawangmangu', '083866290456'),
+(21120117130042, 'Wahid Dwipa Baskara', 'Tawangmangu', '083866290456'),
 (21120117130082, 'Tangguh Tri P.', 'Semarang', '085789746003');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `riwayat`
+--
+
+CREATE TABLE `riwayat` (
+  `id_riwayat` int(3) NOT NULL,
+  `id_order` int(3) NOT NULL,
+  `tgl_pinjam` date NOT NULL,
+  `tgl_kembali` date NOT NULL,
+  `no_ktp` bigint(30) NOT NULL,
+  `id_alat` int(3) NOT NULL,
+  `jml` int(3) NOT NULL,
+  `total` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `riwayat`
+--
+
+INSERT INTO `riwayat` (`id_riwayat`, `id_order`, `tgl_pinjam`, `tgl_kembali`, `no_ktp`, `id_alat`, `jml`, `total`) VALUES
+(1, 6, '2019-11-27', '2019-11-28', 21120117130042, 7, 1, '20000'),
+(4, 5, '2019-11-30', '2019-12-01', 21120117130082, 1, 2, '6000'),
+(5, 4, '2019-11-27', '2019-11-28', 21120117130082, 1, 2, '6000'),
+(6, 3, '2019-11-29', '2019-11-30', 21120117130082, 1, 2, '6000'),
+(7, 7, '2019-11-29', '2019-11-30', 21120117130082, 14, 5, '100000'),
+(8, 9, '2019-11-29', '2019-11-30', 21120117130042, 1, 1, '3000'),
+(9, 8, '2019-11-29', '2019-11-30', 21120117130042, 14, 10, '200000'),
+(10, 12, '2019-12-01', '2019-12-02', 21120117130042, 8, 4, '60000'),
+(11, 13, '2019-12-24', '2019-12-30', 21120117130082, 1, 4, '72000'),
+(12, 14, '2019-12-28', '2019-12-31', 21120117130082, 9, 4, '480000'),
+(13, 2, '2019-11-30', '2019-12-01', 21120117130042, 1, 3, '9000');
 
 -- --------------------------------------------------------
 
@@ -118,12 +152,28 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_order`, `tgl_pinjam`, `tgl_kembali`, `no_ktp`, `id_alat`, `jml`, `total`) VALUES
-(1, '2019-11-27', '2019-11-28', 21120117130082, 1, 1, '3000'),
-(2, '2019-11-30', '2019-12-01', 21120117130042, 1, 2, '6000'),
-(3, '2019-11-29', '2019-11-30', 21120117130082, 1, 2, '6000'),
-(4, '2019-11-27', '2019-11-28', 21120117130082, 1, 2, '6000'),
-(5, '2019-11-30', '2019-12-01', 21120117130082, 1, 2, '6000'),
-(6, '2019-11-27', '2019-11-28', 21120117130042, 7, 1, '20000');
+(1, '2019-11-27', '2019-11-28', 21120117130082, 9, 1, '40000'),
+(10, '2019-11-30', '2019-12-01', 21120117130082, 3, 1, '5000'),
+(11, '2019-11-29', '2019-11-30', 21120117130082, 14, 10, '200000'),
+(15, '2019-12-01', '2019-12-02', 21120117130042, 1, 1, '3000');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `view_riwayat`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `view_riwayat` (
+`id_order` int(3)
+,`nama` varchar(100)
+,`no_ktp` bigint(30)
+,`alat` varchar(50)
+,`jml` int(3)
+,`harga` varchar(20)
+,`tgl_sewa` date
+,`tgl_kembali` date
+,`total` varchar(50)
+);
 
 -- --------------------------------------------------------
 
@@ -142,6 +192,15 @@ CREATE TABLE `view_transaksi` (
 ,`tgl_kembali` date
 ,`total` varchar(50)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `view_riwayat`
+--
+DROP TABLE IF EXISTS `view_riwayat`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_riwayat`  AS  select `riwayat`.`id_order` AS `id_order`,`penyewa`.`nama` AS `nama`,`riwayat`.`no_ktp` AS `no_ktp`,`alat`.`nama` AS `alat`,`riwayat`.`jml` AS `jml`,`alat`.`harga` AS `harga`,`riwayat`.`tgl_pinjam` AS `tgl_sewa`,`riwayat`.`tgl_kembali` AS `tgl_kembali`,`riwayat`.`total` AS `total` from ((`riwayat` join `penyewa` on(`penyewa`.`no_ktp` = `riwayat`.`no_ktp`)) join `alat` on(`alat`.`id_alat` = `riwayat`.`id_alat`)) ;
 
 -- --------------------------------------------------------
 
@@ -175,6 +234,12 @@ ALTER TABLE `penyewa`
   ADD PRIMARY KEY (`no_ktp`);
 
 --
+-- Indeks untuk tabel `riwayat`
+--
+ALTER TABLE `riwayat`
+  ADD PRIMARY KEY (`id_riwayat`);
+
+--
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -199,10 +264,16 @@ ALTER TABLE `alat`
   MODIFY `id_alat` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT untuk tabel `riwayat`
+--
+ALTER TABLE `riwayat`
+  MODIFY `id_riwayat` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_order` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_order` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

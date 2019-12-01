@@ -52,7 +52,13 @@
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
+
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <form action="transaksi.php" method="get">
+                        <label>Pencarian Transaksi (Nama) :</label>
+                        <input type="text" name="cari">
+                        <input type="submit" value="Cari">
+                    </form>
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <ul class="nav navbar-nav flex-nowrap ml-auto">
                             <li class="nav-item dropdown no-arrow" role="presentation">
@@ -70,7 +76,7 @@
                                             ?>
                                         </span></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="logout.php" onclick="return confirm('Anda yakin mau logout ?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -101,15 +107,17 @@
                                     </thead>
                                     <tbody>
                                         <?php
-
                                         include "koneksi.php";
-
-                                        $query = "SELECT * FROM view_transaksi ORDER BY id_order ASC";
-                                        $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
-
+                                        if (isset($_GET['cari'])) {
+                                            $cari = $_GET['cari'];
+                                            $query = "SELECT * FROM view_transaksi where nama like '%" . $cari . "%'";
+                                            $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
+                                        } else {
+                                            $query = "SELECT * FROM view_transaksi ORDER BY id_order ASC";
+                                            $result = mysqli_query($connect, $query) or die(mysqli_error($connect));
+                                        }
                                         while ($row = mysqli_fetch_array($result)) {
                                             ?>
-
                                             <tr>
                                                 <td><?php echo $row['id_order']; ?></td>
                                                 <td><?php echo $row['nama']; ?></td>
@@ -137,8 +145,8 @@
                                                             <button class="btn btn-primary btn-success" type="button">
                                                                 <i class="fa fa-edit"></i>Edit</button>
                                                         </a>
-                                                        <a href='delete_transaksi.php?id=<?php echo $row['id_order']; ?>'>
-                                                            <button class="btn btn-primary btn-danger" type="button">
+                                                        <a href='delete_transaksi.php?id=<?php echo $row['id_order']; ?>' onclick="return confirm('Konfirmasi jika sudah kembali ?')">
+                                                            <button class="btn btn-primary btn-warning" type="button">
                                                                 <i class="fa fa-check"></i>Kembali</button>
                                                         </a>
                                                     </div>

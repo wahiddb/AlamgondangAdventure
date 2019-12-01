@@ -6,8 +6,8 @@ session_start();
 include 'koneksi.php';
 
 // menangkap data yang dikirim dari form login
-$username = $_POST['username'];
-$password = md5($_POST['password']);
+$username = mysqli_real_escape_string($connect, trim($_POST['username']));
+$password = mysqli_real_escape_string($connect, trim(md5($_POST['password'])));
 
 
 // menyeleksi data user dengan username dan password yang sesuai

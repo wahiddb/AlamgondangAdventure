@@ -18,17 +18,19 @@ while ($plg = mysqli_fetch_array($alatt)) {
     $stok = $plg['stok'];
     $total = $harga * $jml * $durasi;
 }
-
-
-$query  = mysqli_query($connect, "INSERT INTO `transaksi` (`id_order`, `tgl_pinjam`, `tgl_kembali`, `no_ktp`, `id_alat`, `jml`, `total`) VALUES (NULL, '$tgl_sewa', '$tgl_keluar', '$no_ktp', '$alat', '$jml', '$total');");
-if ($query) {
-    $new_stok = $stok - $jml;
-    $stokk = mysqli_query($connect, "update alat set stok='$new_stok' where id_alat='$alat' ");
-    if ($stokk) {
-        header('location:transaksi.php');
+if ($stok > 0 && $jml <= $stok) {
+    $query  = mysqli_query($connect, "INSERT INTO `transaksi` (`id_order`, `tgl_pinjam`, `tgl_kembali`, `no_ktp`, `id_alat`, `jml`, `total`) VALUES (NULL, '$tgl_sewa', '$tgl_keluar', '$no_ktp', '$alat', '$jml', '$total');");
+    if ($query) {
+        $new_stok = $stok - $jml;
+        $stokk = mysqli_query($connect, "update alat set stok='$new_stok' where id_alat='$alat' ");
+        if ($stokk) {
+            header('location:transaksi.php');
+        } else {
+            echo mysqli_error($connect);
+        }
     } else {
         echo mysqli_error($connect);
     }
 } else {
-    echo mysqli_error($connect);
+    echo "<script>alert('STOK TIDAK MEMENUHI');window.location='add_transaksi.php'</script>";
 }
